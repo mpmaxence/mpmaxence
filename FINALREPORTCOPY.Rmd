@@ -1,0 +1,806 @@
+---
+title: "Brazil Analysis Report"
+author: "Maxence Padua"
+date: "26/02/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# ABSTRACT
+
+The aim of this report is to measure Brazilian historical, political and economical evolution by means of data. The report mainly focuses on WDI and WHO databases but also on OECD database, the “PORTAL BRASILEIRO DE DADOS ABERTOS” and the “INDE : Infraestrutura nacional de dados especais”, metadata observed by the Brazilian government. The historical and economical intents of explanation are mainly coming from notes of ECE 1 – ESH lessons given by Mrs. Abeille-Becker. 
+More precisely, the analysis tries to focus on governmental policies impact, as the country has known since 1988 the transition to a democratic regime, neoliberal policies and socialism inspired policies under Lula two consecutive mandates. Lastly, a global view of 2019’s Brazil will be given to conclude on the opportunities and risks of being an economic actor in Brazil today. 
+
+\newpage
+
+# TABLE OF CONTENT 
+
+INTRODUCTION	
+FINDINGS AND DISCUSSION	
+
+I.	Structural indicators in Brazi
+
+1.1.	Unemployment	
+1.2.	Inflation	
+1.3.	Brazilian GDP Evolution compared to its main partners	
+1.4.	Power of different Sectors of activity	
+1.5.	International trade
+Conclusions	
+
+II.	Social indicators (Inequality and wealth distribution)	
+2.1	In terms of outcome
+
+2.2	Health (WHO)	
+2.3	Education	
+2.4	Focus on the PISA way of measurment
+Conclusions
+
+III.	Economic development of actual Brazil	
+3.1	Industrial and Infrastructural development
+
+3.2	Doing Business in Brazil
+
+Conclusion	
+1. Links and correlations (historical and political scope)	
+2. Impact of politics on education, living standards	
+
+\newpage
+
+# INTRODUCTION
+
+The transition from a dictatorship to a democratic regime was one of the most outstanding phenomena in recent Brazilian political history. After more than twenty years of military dictatorship (1964-1985), the most important institutions of liberal democracy were re-established in the country.
+With 1988’s Constitution, Brazil became a so-called welfare state (a social country whereby the state protects health and well-being of its citizens)
+On the other hand, in the mid-1990s, the arrival of the neoliberal wave setback to some extent the democratizing wave in order to control inflation and enter in the globalization process. The 1994’s Real Plan was the biggest mark of this neoliberal trend 
+This major shift have had impact both on social and economic life of Brazilians. As a matter of fact, the aim of this report will be to understand the impacts of political and economical decisions on big macroeconomic trends thanks to the power of data.
+We will try to affirm or infirm quotes like the one of the French economist Samir AMIN “ the new plutocratic capitalism of the financialized oligopolies is the enemy of democracy, draining it of its substantive content."
+
+
+
+# I.	Structural indicators in Brazil
+## divided in 3 periods
+- 1988 – 1994 : “the raise of democracy and first social measures”
+- 1995-2002 : “the neoliberal cure”
+- 2003-2016: “Brazil during the Bolsa Familia”)
+
+### Historical point to explain this cutouts 
+
+After the military dictatorship (1964–1985), Brazil began to become a social and step-by-step democratized country. The 1988 Constitution established some social rights to institutionalize policies associated to the so-called welfare state. Brazil elected Fernando Collor de Mello, the first elected president by popular vote after the military regime in December 1989. The first mission was to fight inflation thanks to neoliberal measures. 
+
+Collor’s successor Fernando Henrique Cardoso launched in 1994 the “Real Plan” which was an enforcement of neoliberal measures with privatisations and more power to markets. It made Brazil very weak to fight crisis of 1998 and 2000.
+
+As a matter of fact, by the 1990s, more than 25% of Brazilians survived with less than 1$ a day. All these economic contradictions led to the arrival of Lula at the head of the country. He made large social measures that allowed 40 Millions Brazilians to emerge from poverty.
+
+Thus, the comparison between the neoliberal and the social period will lead us to conclusions over the efficiency of government policies on social and economics domains thanks to data analysis. 
+
+
+## I. 1. Unemployment
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE} 
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+ Unemployment <- WDI(indicator = "SL.UEM.TOTL.ZS", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+
+ggplot(Unemployment) +
+ aes(x = year, y = SL.UEM.TOTL.ZS) +
+ geom_point(size = 1.06, colour = "#ef562d") +
+ labs(x = "Years", y = "Rate of Unemployment", title = "Unemployment in Brazil", subtitle = "(% of total labor force) (modeled ILO estimate) ", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+
+The rate of unemployment appears to be very volatile, it increased mainly at the end of the 1990s and the big crisis of 1998 but also from the middle 2010’s.
+
+It will be compared later to other parameters to have a better understanding.
+
+## I. 2. Inflation
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+
+Inflation1 <- WDI(indicator = "FP.CPI.TOTL.ZG", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 1995)
+
+ggplot(Inflation1) +
+ aes(x = year, y = FP.CPI.TOTL.ZG, colour = FP.CPI.TOTL.ZG) +
+ geom_point(size = 2L) +
+ scale_color_gradient() +
+ labs(x = "Years", y = "Rate of Inflation", title = "Inflation (1988- 1995)", subtitle = "Consumer prices (annual %) ",color = "Rate of Inflation", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_calc()
+
+
+Inflation2 <- WDI(indicator = "FP.CPI.TOTL.ZG", 
+                   country = c("BR"), 
+                   start = 1996, 
+                   end = 2002)
+
+ggplot(Inflation2) +
+ aes(x = year, y = FP.CPI.TOTL.ZG, colour = FP.CPI.TOTL.ZG) +
+ geom_point(size = 2L) +
+ scale_color_gradient() +
+ labs(x = "Years", y = "Rate of Inflation", title = "Inflation (1996 - 2002)", subtitle = "Consumer prices (annual %) ",color = "Rate of Inflation", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_calc()
+
+
+Inflation3 <- WDI(indicator = "FP.CPI.TOTL.ZG", 
+                   country = c("BR"), 
+                   start = 2003, 
+                   end = 2018)
+
+ggplot(Inflation3) +
+ aes(x = year, y = FP.CPI.TOTL.ZG, colour = FP.CPI.TOTL.ZG) +
+ geom_point(size = 2L) +
+ scale_color_gradient() +
+ labs(x = "Years", y = "Rate of Inflation", title = "Inflation(2003 -2018)", subtitle = "Consumer prices (annual %) ", color = "Rate of Inflation", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_calc()
+
+```
+Inflation has been a huge issue in Brazil for a while, till 1994, Brazil knew an inflation between 500% and 3000%. This period was characterized by “a combination of fiscal deficits, passive monetary policy, and constraints on debt financing.” (Ayres, Garcia, Guillén, Kehoe, 2019).
+
+From 1996, a huge change can be seen, in particular thanks to the 1994 Real Plan.  This period is seen by Ayres and al. as “the transition to the low-inflation period” associated with improvements in government fiscal balances and higher independence of the monetary authority.
+
+Between 2003 and 2018, the inflation is maintained to a low level (between 4% and 9%, 2003 excluded, explained by Lula’s first social measures). This result is the most relevant of this three graphs because it represents the period defined in this report as the “Bolsa Familia” that includes the biggest social reforms Brazil has never knew, with waves of nationalisation and vast programs of investments in a state much more interventionist.  Nevertheless, the inflation was maintained at a better level than during the “neoliberal period”
+
+
+\newpage
+
+## I. 3. Brazilian GDP Evolution compared to its main partners
+
+
+```{r echo=FALSE}
+library(WDI)
+library(ggplot2)
+
+GDP <- WDI(indicator = "NY.GDP.MKTP.CD", 
+                   country = c("BR","MX","AR"), 
+                   start = 1988, 
+                   end = 2018)
+
+library(ggplot2)
+
+ggplot(GDP) +
+ aes(x = year, y = NY.GDP.MKTP.CD, colour = country) +
+ geom_line(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "GDP Value", title = "GDP Evolution in Brazil, Mexico and Argentina (1988 - 2018)", subtitle = "(current US$)", color = "Country", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+Brazil’s GDP has progressed increasingly from 2000. Lula’s presidency from 2002 to 2011 has been very profitable to the country. Since then, Brazil has more suffered than its comparable neighbours from 2014 and 2017 crisis. 
+
+The significant contraction in economic activity in 2015 and 2016 was a result of falling commodity prices and the country's limited ability to carry out necessary fiscal reforms at all levels of government, thus undermining consumer and investor confidence. 
+
+
+## I. 4. Power of different Sectors of activity
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+AGRI <- WDI(indicator = c("NV.AGR.TOTL.ZS"),
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+
+ggplot(AGRI) +
+ aes(x = year, y = NV.AGR.TOTL.ZS, fill = iso2c) +
+ geom_area(size = 1L, fill= "green") +
+ scale_fill_hue() +
+ labs(x = "Years", y = "Agriculture (% of GDP) ", title = "Agriculture", subtitle = "value added (% of GDP) ", fill = "Agriculture", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+
+INDUS <- WDI(indicator = "NV.IND.TOTL.ZS", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+ggplot(INDUS) +
+ aes(x = year, y = NV.IND.TOTL.ZS, fill = iso2c) +
+ geom_area(size = 1L, fill= "yellow") +
+ scale_fill_hue() +
+ labs(x = "Years", y = "Industry (% of GDP) ", title = "Industry", subtitle = "value added (% of GDP) ", fill = "Industry", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+
+SERVICE <- WDI(indicator = "NV.SRV.TOTL.ZS", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+ggplot(SERVICE) +
+ aes(x = year, y = NV.SRV.TOTL.ZS, fill = iso2c) +
+ geom_area(size = 1L, fill= "red") +
+ scale_fill_hue() +
+ labs(x = "Years", y = "Services (% of GDP) ", title = "Services", subtitle = "value added (% of GDP) ", fill = "Services", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+
+```{r eval=FALSE, include=FALSE}
+my3cols <- c("#E7B800", "#2E9FDF", "#FC4E07")
+AGRI <- as.factor(AGRI)
+
+# 1. Créer un box plot (bp)
+AGRI <- ggplot(AGRI) + aes(x = year, y = NV.AGR.TOTL.ZS)
+INDUS <- AGRI + ggplot(INDUS) + aes(x = year, y = NV.IND.TOTL.ZS)
+SERVICE <- AGRI + INDUS + ggplot(SERVICE) + aes(x = year, y = NV.SRV.TOTL.ZS) +
+  scale_color_manual(values = my3cols)
+
+# 2. Créer un dot plot (dp)
+dp <- p + geom_dotplot(aes(color = year, fill = iso2c), 
+                       binaxis='y', stackdir='center') +
+  scale_color_manual(values = my3cols) + 
+  scale_fill_manual(values = my3cols)
+
+# 3. Créer un line plot
+lp <- ggplot(economics, aes(x = date, y = psavert)) + 
+  geom_line(color = "#E46726") 
+
+figure <- ggarrange(bxp, dp, lp,
+                    labels = c("A", "B", "C"),
+                    ncol = 2, nrow = 2)
+figure
+```
+
+## Global trends
+
+Like in every developed country, the repartition of every sector’s contribution to GDP puts in first position the services, in augmentation since 1988. It represents 63% of the GDP in 2018. Industry and Agriculture have both decreased. In 2018, the agricultural sector represents 4,5% of the GDP and the industrial sector represents 19% of GDP. 
+It’s important to notice also the power of extractive activities which represents more than 10% of the GDP, because Brazil extracts quantities of oil out from the ground. 
+
+## The role of State in promotion of different sectors 
+
+This trends are the result of the development of the economy, first thanks to automatization of agricultural techniques and then industrial ones. The better living-conditions of populations also plays a role in the augmentation of the Services value added to GDP. 
+But the importance of State in these trends can also be explained by the fact that national governments use their purchasing power to promote the development of domestic productive sectors. 
+For Cássio Garcia Ribeiro & André Tosi Furtado “Government procurement as a leading role in the promotion of domestic industry, especially for the magnitude of this market.” Some research shows that government procurement accounts for 10–16 per cent of gross domestic product (GDP) in developed countries (Hoekman and Mavroidis, 1995; Audet, 2002; Georghiou et al., 2003; Weiss and Thurbon, 2006). 
+For instance, in Brazil, the company Petrobras, controlled and owned by the State has the monopole on extractive activities and the money has hugely been used to finance the Bolsa Familia Program by Lula.
+
+
+## I. 5. International trade 
+
+```{r echo=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+Exportation <- WDI(indicator = "NE.EXP.GNFS.ZS", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+
+ggplot(Exportation) +
+ aes(x = year, y = NE.EXP.GNFS.ZS, colour = NE.EXP.GNFS.ZS) +
+ geom_line(size = 1L) +
+ scale_color_distiller(palette = "Spectral") +
+ labs(x = "Years", y = "Exports (% of GDP)", title = "Exports in Brazil (1988-2018)", subtitle = "Goods and services (% of GDP)", color = "Exports", caption = "https://databank.worldbank.org/databases") +
+ theme_minimal()
+
+
+Importation <- WDI(indicator = "NE.IMP.GNFS.ZS", 
+                   country = c("BR"), 
+                   start = 1988, 
+                   end = 2018)
+ggplot(Importation) +
+ aes(x = year, y = NE.IMP.GNFS.ZS, colour = NE.IMP.GNFS.ZS) +
+ geom_line(size = 1L,) +
+ scale_color_distiller(palette = "Spectral") +
+ labs(x = "Years", y = "Imports (% of GDP)", title = "Imports in Brazil (1988-2018)", subtitle = "Goods and services (% of GDP)", color = "Imports", caption = "https://databank.worldbank.org/databases") +
+ theme_minimal()
+
+```
+
+## Conclusions
+
+Macroeconomic Data highlight the impact of mid-2010’s crises, and the inefficient impact of post Lula policies led by Dilma Roussef and Jair Bolsonaro. Since 2015, the pace of poverty and inequality reduction seems to have stagnated. The unemployment rate is increasing since 2015.
+
+In the last 30 years, the country has gained in stability in term of inflation and monetary mechanisms. The period which seems to have had the best impact on macroeconomics is the period 2004 – 2011. Let’s see if we can confirm this hypothesis thanks to social indicators. 
+
+
+
+
+# II. Social indicators (Inequality and wealth distribution)
+## II. 1. In terms of outcome
+
+## GINI index (World Bank estimate)
+
+```{r echo=FALSE}
+
+GINI <- WDI(indicator = "SI.POV.GINI", 
+                   country = c("BR","US","AR","RU","MX"), 
+                   start = 2016, 
+                   end = 2016)
+ggplot(GINI) +
+ aes(x = country, fill = country, colour = country, weight = SI.POV.GINI) +
+ geom_bar() +
+ scale_fill_hue() +
+ scale_color_hue() +
+ labs(x = "Country", y = "GINI (over 100)", title = "GINI index (World Bank estimate) 2016") +
+ theme_minimal()
+
+```
+
+#### Comment on the GINI Indicator
+
+The Gini coefficient measures the inequality among values of a frequency distribution (for example, levels of income). A Gini coefficient of zero expresses perfect equality, where all values are the same (for example, where everyone has the same income). A Gini coefficient of one (or 100%) expresses maximal inequality among values.
+
+#### Explanation of the histogram
+
+This histogram clearly demonstrates that Brazil is late compared to the means in the region, its neighbours and other developing countries, far from developed countries such as France. The is still work to do in terms of income sharing.
+
+## Income share held by highest 10%
+
+```{r echo=FALSE, warning=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+Piketty <- WDI(indicator = "SI.DST.10TH.10", 
+                   country = c("BR","FR"), 
+                   start = 1988, 
+                   end = 2018)
+ggplot(Piketty) +
+ aes(x = country, y = SI.DST.10TH.10, fill = country) +
+ geom_violin(adjust = 1L, scale = "area") +
+ scale_fill_hue() +
+ labs(x = "Country", y = "Income share held by highest 10%", title = "Income share held by highest 10%", caption = "https://databank.worldbank.org/databases") +
+ theme_minimal()
+
+
+```
+
+## Income share held by lowest 10%
+```{r echo=FALSE, warning=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+Piketty1 <- WDI(indicator = "SI.DST.FRST.10", 
+                   country = c("BR","FR"), 
+                   start = 1988, 
+                   end = 2018)
+
+
+ggplot(Piketty1) +
+ aes(x = country, y = SI.DST.FRST.10, fill = country) +
+ geom_violin(adjust = 1L, scale = "area") +
+ scale_fill_hue() +
+ labs(x = "Country", y = "Income share held by lowest 10%", title = "Income share held by lowest 10%", caption = "https://databank.worldbank.org/databases") +
+ theme_minimal()
+```
+
+# II. 2. Health (WHO)
+### Government expenditure on health (US$) per capita (PPP Int $) in Brazil
+
+```{r echo=FALSE}
+# solution 1
+library(WHO)
+healthexp <- get_data("WHS7_108")
+
+library(dplyr)
+
+# keep the data only for Brazil
+healthexp <- filter(healthexp, country == "Brazil")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexp) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(US$) per capita (PPP Int $) ", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+```
+\newpage
+
+#### compared to Mexico
+```{r echo=FALSE}
+# solution 1
+library(WHO)
+healthexp <- get_data("WHS7_108")
+
+library(dplyr)
+
+# keep the data only for Brazil
+healthexp <- filter(healthexp, country == "Mexico")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexp) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(US$) per capita (PPP Int $) ", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+```
+\newpage
+
+#### And compared to one of the biggest spender in terms of health : France
+```{r echo=FALSE}
+
+library(WHO)
+
+data <- get_data("WHS7_108")
+
+# retrieve data
+# isolate and download data
+library(dplyr)
+
+# keep the data only for Brazil
+healthexp <- filter(data, country == "France")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexp) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(US$) per capita (PPP Int $) ", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+
+```
+
+
+### General government expenditure on health as a percentage of total governmental expenditure
+
+```{r echo=FALSE}
+# solution 1
+library(WHO)
+healthexptotal <- get_data("WHS7_113")
+
+library(dplyr)
+
+# keep the data only for Brazil
+healthexptotal <- filter(healthexptotal, country == "Brazil")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexptotal) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(percentage of total governmental expenditure)", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+```
+\newpage
+
+#### Compared to Mexico
+```{r echo=FALSE}
+# solution 1
+library(WHO)
+healthexptotalus <- get_data("WHS7_113")
+
+library(dplyr)
+
+# keep the data only for Brazil
+healthexptotalus <- filter(healthexptotalus, country == "Mexico")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexptotalus) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(percentage of total governmental expenditure)", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+```
+\newpage 
+
+#### And again compared one of the biggest spenders in terms of health
+```{r echo=FALSE}
+# solution 1
+library(WHO)
+healthexptotalus <- get_data("WHS7_113")
+
+library(dplyr)
+
+# keep the data only for Brazil
+healthexptotalus <- filter(healthexptotalus, country == "France")
+
+# visualize data
+
+library(ggplot2)
+library(ggthemes)
+
+ggplot(healthexptotalus) +
+ aes(x = year, y = value, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure on Health ", title = "Government expenditure on health ", subtitle = "(percentage of total governmental expenditure)", color = "Country", caption = "https://www.who.int/nutgrowthdb/database/en/") +
+ ggthemes::theme_economist()
+```
+
+### COMMENT
+
+In terms of health, Government expenditure on health has significantly increased on the period to more than 600 US$ per capita, the same level than in Mexico. Nevertheless, health represents less than 7% of Governmental expenditure, this investment was very low under Lula’s governance. In Mexico this rate is around 12% and around 16% in France. There is still work to do in Brazil on the health sector.
+
+# II. 3. Education
+
+## Expected Years of School
+
+```{r echo=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+YearsSchool <- WDI(indicator = "HD.HCI.EYRS", 
+                   country = c("BR","AR","MX","US","FR"), 
+                   start = 1988, 
+                   end = 2018)
+
+library(ggplot2)
+
+ggplot(YearsSchool) +
+ aes(x = country, fill = country, weight = HD.HCI.EYRS) +
+ geom_bar() +
+ scale_fill_hue() +
+ labs(x = "Country", y = "Years", title = "School life expectancy", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+
+
+## Government expenditure on education, total (% of GDP)
+```{r echo=FALSE, warning=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+EducExp <- WDI(indicator = "SE.XPD.TOTL.GD.ZS", 
+                   country = c("BR","AR","MX","US","FR"), 
+                   start = NULL, 
+                   end = NULL)
+
+EducExp %>%
+ filter(year >= 1995L & year <= 2018L) %>%
+ ggplot() +
+ aes(x = year, y = SE.XPD.TOTL.GD.ZS, colour = country) +
+ geom_line(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "Expenditure for education (% of GDP)", title = "Government expenditure on education", subtitle = "total (% of GDP)", color = "Country", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+
+Brazil spends more in education than the United States, Mexico or Argentina. 
+
+# II. 4. Focus on the PISA way of measurment
+
+### What is PISA ?
+According to the OECD, the PISA (Programme for International Student Assessment) study is "a worldwide study in member and non-member OECD nations intended to evaluate educational systems by measuring 15-year-old school pupils' scholastic performance on mathematics, science, and reading". This is one of the most relevant score to analyse the quality of the educational system.
+
+
+## PISA: Mean performance on the mathematics scale
+
+```{r echo=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+PISAmaths<- WDI(indicator = "LO.PISA.MAT", 
+                   country = c("BR","OED"), 
+                   start = 2018, 
+                   end = 2018)
+
+ggplot(PISAmaths) +
+ aes(x = country, y = LO.PISA.MAT, fill = country) +
+ geom_boxplot() +
+ scale_fill_hue() +
+ labs(x = "Country", y = "PISA Score", title = "PISA: Mean performance on the mathematics scale", fill = "Country / Region", caption = "https://www.oecd.org/pisa/data/") +
+ ggthemes::theme_economist()
+
+```
+
+
+## PISA: Mean performance on the reading scale
+
+```{r echo=FALSE, warning=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+PISAread<- WDI(indicator = "LO.PISA.REA", 
+                   country = c("BR","OED"), 
+                   start = 2018, 
+                   end = NULL)
+ggplot(PISAread) +
+ aes(x = country, y = LO.PISA.REA, fill = country) +
+ geom_boxplot() +
+ scale_fill_hue() +
+ labs(x = "Country", y = "PISA Score", title = "PISA: Mean performance on the reading scale", fill = "Country / Region", caption = "https://www.oecd.org/pisa/data/") +
+ ggthemes::theme_economist()
+```
+
+## PISA: Mean performance on the science scale
+
+
+```{r echo=FALSE, warning=FALSE}
+library(WDI)
+library(dplyr)
+library(ggplot2)
+
+PISAscience<- WDI(indicator = "LO.PISA.SCI", 
+                   country = c("BR","OED"), 
+                   start = 2018, 
+                   end = NULL)
+
+ggplot(PISAscience) +
+ aes(x = country, y = LO.PISA.SCI, fill = country) +
+ geom_boxplot() +
+ scale_fill_hue() +
+ labs(x = "Country", y = "PISA Score", title = "PISA: Mean performance on the science scale", fill = "Country / Region", caption = "https://www.oecd.org/pisa/data/") +
+ ggthemes::theme_economist()
+
+
+```
+
+Even if Brazil spends more than many countries for its students, Brazil has bad scores at the PISA Study and even if progress has been done, quality of teaching is lower compared to other countries. In terms of reading, mathematical and scientific skills and compared to OECD members (developed countries), Brazil has sensitive low scores. 
+
+
+# III. Doing Business in Brasil nowadays
+
+## Industrial and Infrastructural development 
+
+### Some figures which does not neee plots but import to understand the infrastructural components of Brazil 
+
+- Access to electricity (% of population) = 100% in 2017
+- Individuals using the Internet (% of population) = 67,5% VS more than 80% in OECD
+
+## Research and development expenditure (% of GDP) 
+```{r echo=FALSE, warning=FALSE}
+RandD<- WDI(indicator = "GB.XPD.RSDV.GD.ZS", 
+                   country = c("BR","OED"), 
+                   start = 2000, 
+                   end = NULL)
+
+ggplot(RandD) +
+ aes(x = year, y = GB.XPD.RSDV.GD.ZS, colour = country) +
+ geom_point(size = 1L) +
+ scale_color_hue() +
+ labs(x = "Years", y = "R&D (% GDP)", title = "o\tResearch and development expenditure ", subtitle = "(% of GDP) ", color = "Country / Region", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+```
+
+## Distance to frontier score (0=lowest performance to 100=frontier)
+### (performance observed on each Doing Business topic across all economies and years included since 2005) - compared with South American powers Argentina and Mexico
+
+```{r echo=FALSE}
+
+Perf <- WDI(indicator = "IC.BUS.DFRN.XQ", 
+                   country = c("BR","AR","MX","LCN"), 
+                   start = 2005, 
+                   end = NULL)
+
+Perf %>%
+ filter(year >= 2016.9 & year <= 2017.9) %>%
+ ggplot() +
+ aes(x = country, fill = country, weight = IC.BUS.DFRN.XQ) +
+ geom_bar() +
+ scale_fill_hue() +
+ labs(x = "Country", y = "Distance to frontier score", title = "Performance observed on each Doing Business topic", subtitle = "0=lowest performance to 100=frontier", fill = "Country / Region", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+
+```
+
+## Start-up procedures to register a business (number)
+
+```{r echo=FALSE}
+startup <- WDI(indicator = "IC.REG.PROC", 
+                   country = c("BR","LCN","OED"), 
+                   start = NULL, 
+                   end = NULL)
+
+library(dplyr)
+library(ggplot2)
+
+startup %>%
+ filter(year >= 2018L & year <= 2018L) %>%
+ ggplot() +
+ aes(x = country, fill = country, weight = IC.REG.PROC) +
+ geom_bar() +
+ scale_fill_hue() +
+ labs(x = "Country / Region", y = "Number of procedures", title = "Start-up procedures to register a business", subtitle = "number", caption = "https://databank.worldbank.org/databases") +
+ ggthemes::theme_economist()
+
+
+```
+
+## Time required to start a business (days)
+
+```{r echo=FALSE}
+launch <- WDI(indicator = "IC.REG.DURS", 
+                   country = c("BR","OED","LCN"), 
+                   start = NULL, 
+                   end = NULL)
+
+launch %>%
+ filter(year >= 2018L & year <= 2018L) %>%
+ ggplot() +
+ aes(x = country, fill = country, weight = IC.REG.DURS) +
+ geom_bar() +
+ scale_fill_hue() +
+ labs(x = "Country / Region", y = "Days", title = "Time required to start a business (2018)", subtitle = "Days", caption = "https://databank.worldbank.org/databases", fill = "Country / Region") +
+ ggthemes::theme_economist()
+
+```
+
+\newpage
+
+# Conclusion
+
+As Brazil has known since 1988 the transition to a democratic regime, neoliberal policies and socialism inspired policies under Lula, it represents a perfect example to judge impacts of opposite measures on social and economic data. 
+
+
+The first observation which comes from this report is the difficulties known by the country since 2014. Every indicator stagnates or decreases since then. Brazil wouldn’t have socially and economically progressed without massive investments and social measures that have reduced huge inequalities in the country during the 2000’s. 
+
+
+It appears a great correlation between public policies, government expenditures and social development which finality is a reduction of inequalities and fairer income share.
+
+This observation joins D. North analysis telling that institutions are the keys for economic performances, when they guarantee individual freedom and property rights (D. North, Institutions, ideology, and economic performance, 1991). That’s why, implantation of stronger institutions has led to economic development of the country as strong institutions are the key for economic performances and low volatility (H. Edison, 2003).
+
+
+Nevertheless, many institutions are still weak and there is still great uncertainty that impeaches the economy to start again in the fifth largest market opportunity in the world. Data will soon give trends about Jair Bolsonaro’s new way of governance which has suppressed many investments in social sectors and reduced the weight of state implication in many sector.
+
+
+
+
+\newpage
+
+# BIBLIOGRAPHY 
+
+AMIN, S. Economia de mercado ou capitalismo financeiro oligopólico. Margem Esquerda, n. 12, p. 62-73, 2008. [ Links ]
+
+AYERES J. and al. (2019) The Monetary and Fiscal History of Brazil, 1960-2016, NBER Working Paper No. 25421
+
+BIN D. (2015) Economia e Sociedade, Econ. soc. vol.24 no.3 Campinas [https://doi.org/10.1590/1982-3533.2015v24n3art1]
+
+BOWLES, S.; GINTIS, H. Democracy and capitalism: property, community, and the contradictions of modern social thought. New York: Basic Books, 1986. [ Links ]
+
+EDISSON H. (2003) The impact from changes in stock market valuations on investment: new economy versus old economy, Applied Economics
+
+GAMBUS I. & ALMEIDA F. (2017) Brazil in the Twenty-First Century, JOURNAL OF ECONOMIC ISSUES Vol. LI No.  [http://eds.b.ebscohost.com.ezp.skema.edu/eds/pdfviewer/pdfviewer?vid=7&sid=f5452a1c-7d67-4e27-b04c-b66121cd4e6f%40sessionmgr101]
+
+GUTTIAREZ M.P., VOESE S.B. and al (2019). "Education costs in Brazil: analysis of macroeconomic variables," International Journal of Education Economics and Development, Inderscience Enterprises Ltd, vol. 10(3), pages 235-257.
+
+NORTH D. (1991) Institutions, ideology, and economic performance, 1991
+
+RIBEIRO C.G. & FURTADO A.T. (2015). "Public procurement for innovation in developing countries: the case of Petrobras," Chapters, in: Charles Edquist & Nicholas S Vonortas & Jon M Zabala-Iturriagagoitia & Jakob Edler (ed.), Public Procurement for Innovation, chapter 10, pages 263-298, Edward Elgar Publishing.
+
+SWANSON, J. Economic common sense and the depoliticization of the economic. Political Research Quarterly, v. 61, n. 1, p. 56-67, 2008. [ Links ]
+
+WRIGHT, E. O. Political power, democracy, and coupon socialism., Politics & Society v. 22, n. 4, p. 535-548, 1994. [ Links ]
+
+## MAIN DATABANKS :
+
+DATA WORLD BANK [https://databank.worldbank.org/databases ]
+PISA [ http://brasilidade.canalblog.com/archives/2013/12/05/28592180.html ]
+METADATOS BRASIL / Infraestutura nacional de dados espaciais [ http://metadados.inde.gov.br/geonetwork/srv/por/main.home ]
+
+
+
+
